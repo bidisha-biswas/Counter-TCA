@@ -11,6 +11,7 @@
 		B8A616322AF89ACA00D6D06E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A616312AF89ACA00D6D06E /* ContentView.swift */; };
 		B8A616342AF89ACB00D6D06E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8A616332AF89ACB00D6D06E /* Assets.xcassets */; };
 		B8A616372AF89ACB00D6D06E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8A616362AF89ACB00D6D06E /* Preview Assets.xcassets */; };
+		B8A6163F2AF8AA9400D6D06E /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = B8A6163E2AF8AA9400D6D06E /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8A6163F2AF8AA9400D6D06E /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +85,9 @@
 			dependencies = (
 			);
 			name = "Counter-TCA";
+			packageProductDependencies = (
+				B8A6163E2AF8AA9400D6D06E /* ComposableArchitecture */,
+			);
 			productName = "Counter-TCA";
 			productReference = B8A6162C2AF89ACA00D6D06E /* Counter-TCA.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +116,9 @@
 				Base,
 			);
 			mainGroup = B8A616232AF89ACA00D6D06E;
+			packageReferences = (
+				B8A6163D2AF8AA9400D6D06E /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = B8A6162D2AF89ACA00D6D06E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -344,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B8A6163D2AF8AA9400D6D06E /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B8A6163E2AF8AA9400D6D06E /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8A6163D2AF8AA9400D6D06E /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B8A616242AF89ACA00D6D06E /* Project object */;
 }

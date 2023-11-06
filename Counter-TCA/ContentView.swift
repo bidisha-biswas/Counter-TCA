@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  Counter-TCA
-//
-//  Created by Bidisha Biswas on 11/5/23.
-//
-
 import SwiftUI
 
 struct ContentView: View {

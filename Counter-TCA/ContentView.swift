@@ -24,6 +24,10 @@ struct CounterFeature: Reducer {
         case timerTicking
     }
 
+    enum CancelID: Hashable {
+        case timerCancel
+    }
+
     // Reduce takes a closure that is given the current state of the feature as an inout parameter, the action that was sent into the system, and must return what is called an Effect.
 
     // Return ans instance of the Effect type, which represents a side effect that can be executed out in the real world and feed data back into the system. The most typical examples of this are API requests.
@@ -70,9 +74,10 @@ struct CounterFeature: Reducer {
                             await send(.timerTicking)
                         }
                     }
+                    .cancellable(id: CancelID.timerCancel)
                 }
                 else {
-                    // TODO: Stop timer
+                    return .cancel(id: CancelID.timerCancel)
                 }
             case .timerTicking:
                 state.count += 1

@@ -32,7 +32,12 @@ struct CounterFeature: Reducer {
                 return .none
 
             case .getFactButtonTapped:
-                return .none
+                return .run { [count = state.count] send in
+                    let url = URL(string: "http://numbersapi.com/\(count)")!
+                    let (data, _) = try await URLSession.shared.data(from: url)
+                    let fact = String(decoding: data, as: UTF8.self)
+                    print(fact)
+                }
 
             case .toggleTimerButtonTapped:
                 state.isTimerOn.toggle()
@@ -84,8 +89,8 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(store: .init(initialState: CounterFeature.State(),
-                             reducer: {
+    ContentView(store: .init(initialState: CounterFeature.State()) {
         CounterFeature()
-    }))
+        //    ._printChanges() // For Debugging
+    })
 }

@@ -5,11 +5,12 @@ struct CounterFeature: Reducer {
     struct State: Equatable {
         var count = 0
         var fact: String?
+        var isLoading: Bool = false
         var isTimerOn: Bool = false
     }
 
     // Actions that user can do in this view such as button taps, gestures, etc. It can also include other actions (such as API calls, corelocation updates, etc that can change the State
-    
+
     enum Action {
 
         // User Actions
@@ -30,15 +31,22 @@ struct CounterFeature: Reducer {
         Reduce { state, action in
             switch action {
             case .decrementButtonTapped:
+                state.fact = nil
                 state.count -= 1
                 return .none
 
             case .incrementButtonTapped:
+                state.fact = nil
                 state.count += 1
                 return .none
 
             case .getFactButtonTapped:
+                state.fact = nil
+                state.isLoading = true
+
                 return .run { [count = state.count] send in
+                    try await Task.sleep(for: .seconds(1)) // simulate for loading indicator
+                    
                     let url = URL(string: "http://numbersapi.com/\(count)")!
                     let (data, _) = try await URLSession.shared.data(from: url)
                     let fact = String(decoding: data, as: UTF8.self)
@@ -47,6 +55,7 @@ struct CounterFeature: Reducer {
                 }
 
             case let .getFactResponse(fact):
+                state.isLoading = false
                 state.fact = fact
                 return .none
 
@@ -75,8 +84,16 @@ struct ContentView: View {
                     }
                 }
                 Section {
-                    Button("Get Fact") {
+                    Button {
                         viewStore.send(.getFactButtonTapped)
+                    } label: {
+                        HStack {
+                            Text("Get Fact")
+                            if viewStore.isLoading {
+                                Spacer()
+                                ProgressView()
+                            }
+                        }
                     }
                     if let fact = viewStore.fact {
                         Text(fact)

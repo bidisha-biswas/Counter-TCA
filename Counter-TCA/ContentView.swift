@@ -8,12 +8,18 @@ struct CounterFeature: Reducer {
         var isTimerOn: Bool = false
     }
 
-    // Actions that user can do in this view such as button taps, gestures, etc.
+    // Actions that user can do in this view such as button taps, gestures, etc. It can also include other actions (such as API calls, corelocation updates, etc that can change the State
+    
     enum Action {
+
+        // User Actions
         case decrementButtonTapped
         case incrementButtonTapped
         case toggleTimerButtonTapped
         case getFactButtonTapped
+
+        // Others
+        case getFactResponse(String)
     }
 
     // Reduce takes a closure that is given the current state of the feature as an inout parameter, the action that was sent into the system, and must return what is called an Effect.
@@ -36,8 +42,13 @@ struct CounterFeature: Reducer {
                     let url = URL(string: "http://numbersapi.com/\(count)")!
                     let (data, _) = try await URLSession.shared.data(from: url)
                     let fact = String(decoding: data, as: UTF8.self)
-                    print(fact)
+                    
+                    await send(.getFactResponse(fact))
                 }
+
+            case let .getFactResponse(fact):
+                state.fact = fact
+                return .none
 
             case .toggleTimerButtonTapped:
                 state.isTimerOn.toggle()

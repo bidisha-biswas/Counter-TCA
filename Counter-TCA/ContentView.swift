@@ -21,6 +21,7 @@ struct CounterFeature: Reducer {
 
         // Others
         case getFactResponse(String)
+        case timerTicking
     }
 
     // Reduce takes a closure that is given the current state of the feature as an inout parameter, the action that was sent into the system, and must return what is called an Effect.
@@ -61,6 +62,20 @@ struct CounterFeature: Reducer {
 
             case .toggleTimerButtonTapped:
                 state.isTimerOn.toggle()
+
+                if state.isTimerOn {
+                    return .run { send in
+                        while(true) {
+                            try await Task.sleep(for: .seconds(1))
+                            await send(.timerTicking)
+                        }
+                    }
+                }
+                else {
+                    // TODO: Stop timer
+                }
+            case .timerTicking:
+                state.count += 1
                 return .none
             }
         }
